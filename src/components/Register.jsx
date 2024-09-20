@@ -9,7 +9,25 @@ export default function Register() {
             email:'',
             password:''
         },
-        onSubmit: RegisterUser
+        onSubmit: RegisterUser,
+        validate: values=>{
+            let errors={};
+            if (values.email.length <=10){
+              errors.email="email is required !!!";
+  
+            }
+            if(values.password.length<=2){
+              errors.password="password is required !!!";
+  
+            }
+            if(values.userName.length<=3){
+                errors.userName="User name is required !!!";
+    
+              }
+            return errors;
+            
+  
+          }
     });
 
     async function RegisterUser() {
@@ -29,10 +47,14 @@ export default function Register() {
                     onChange={formik.handleChange}
                     name="userName"
                     id="name"
+                    onBlur={formik.handleBlur}
+
                     value={formik.userName} 
                     placeholder=""
                 />
                 <label htmlFor="name">User Name</label>
+                {formik.touched.userName &&  formik.errors.userName ? <div className="alert alert-danger">  {formik.errors.userName}</div>:null}
+
             </div>
 
             <div className="form-floating mb-3">
@@ -42,10 +64,14 @@ export default function Register() {
                     onChange={formik.handleChange}
                     name="email"
                     id="email"
+                    onBlur={formik.handleBlur}
+
                     value={formik.email}  
                     placeholder=""
                 />
                 <label htmlFor="email">User Email</label>
+                {formik.touched.email &&  formik.errors.email ? <div className="alert alert-danger">  {formik.errors.email}</div>:null}
+
             </div>
 
             <div className="form-floating mb-3">
@@ -55,10 +81,14 @@ export default function Register() {
                     onChange={formik.handleChange}
                     name="password"
                     id="password"
+                    onBlur={formik.handleBlur}
+
                     value={formik.password}  
                     placeholder=""
                 />
                 <label htmlFor="password">User Password</label>
+                {formik.touched.password &&  formik.errors.password ? <div className="alert alert-danger">  {formik.errors.password}</div>:null}
+
             </div>
 
             <button type="submit" className="btn btn-outline-info">Register</button>
