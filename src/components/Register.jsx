@@ -1,8 +1,17 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import * as yup from 'yup';
+
 
 export default function Register() {
+    const schema=yup.object({
+        email:yup.string().required().min(5).max(100).email(),
+        password:yup.string().required().min(2).max(20),
+        userName:yup.string().required().min(3).max(20)
+        
+          });
+   
     const formik = useFormik({
         initialValues: {
             userName:'',
@@ -10,24 +19,9 @@ export default function Register() {
             password:''
         },
         onSubmit: RegisterUser,
-        validate: values=>{
-            let errors={};
-            if (values.email.length <=10){
-              errors.email="email is required !!!";
-  
-            }
-            if(values.password.length<=2){
-              errors.password="password is required !!!";
-  
-            }
-            if(values.userName.length<=3){
-                errors.userName="User name is required !!!";
-    
-              }
-            return errors;
-            
-  
-          }
+        validationSchema:schema
+
+       
     });
 
     async function RegisterUser() {
